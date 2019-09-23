@@ -1,3 +1,5 @@
+<?php include_once '../lib/Session.php'; ?>
+<?php Session::checkSession(); ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
   header("Pragma: no-cache"); 
@@ -50,10 +52,14 @@
                 <div class="floatright">
                     <div class="floatleft">
                         <img src="img/img-profile.jpg" alt="Profile Pic" /></div>
+
+                        <?php if(isset($_GET['action']) && isset($_GET['action'])=='logout')
+                                Session::destroy();
+                         ?>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello Admin</li>
-                            <li><a href="#">Logout</a></li>
+                            <li>Hello <?php echo Session::get('adminName') ?></li>
+                            <li><a href="?action=logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>

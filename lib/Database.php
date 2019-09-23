@@ -1,3 +1,4 @@
+<?php include_once '../config/Config.php' ?>
 <?php
   Class Database{
     public $host   = DB_HOST;
@@ -24,8 +25,7 @@
    
   // Select or Read data
   public function select($query){
-    $result = $this->link->query($query) or 
-      die($this->link->error.__LINE__);
+    $result = $this->link->query($query) or die($this->link->error.__LINE__);
     if($result->num_rows > 0){
       return $result;
     }else {
