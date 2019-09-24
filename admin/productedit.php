@@ -5,23 +5,34 @@
 <?php include '../classes/Product.php' ?>
 
 <?php
-    
+    if(!isset($_GET['proid']) || $_GET['proid'] == NULL){
+        echo "<script>window.location = 'productlist.php';</script>";
+    }else{
+        $id = $_GET['proid'];
+    }
+
     $product = new Product();
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
 
-        $insertProduct = $product->productInsert($_POST, $_FILES);
+        $updateProduct = $product->productUpdate($_POST, $_FILES, $id);
     }
 ?> 
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Add New Product</h2>
+        <h2>Update Product</h2>
         <div class="block">
         <?php 
-            if (isset($insertProduct)) {
-                print_r($insertProduct);
+            if (isset($updateProduct)) {
+                print_r($updateProduct);
             } 
-        ?>               
+        ?>
+        <?php 
+            $getProduct = $product->getProductById($id);
+            if($getProduct){
+                while ($value = $getProduct->fetch_assoc()) {
+            
+        ?>              
          <form action="" method="post" enctype="multipart/form-data">
             <table class="form">
                
@@ -30,7 +41,7 @@
                         <label>Name</label>
                     </td>
                     <td>
-                        <input type="text" name="productName" placeholder="Enter Product Name..." class="medium" />
+                        <input type="text" name="productName" value="<?php echo $value['productName'] ?>" class="medium" />
                     </td>
                 </tr>
 				<tr>
@@ -48,7 +59,14 @@
                                     while($result = $getCat->fetch_assoc()){
 
                             ?>
-                                <option value="<?php echo $result['catId'] ?>" > <?php echo $result['catName'] ?> </option>
+                                <option
+                                    <?php 
+                                        if ($value['catId'] == $result['catId']) { ?>
+                                            selected = "selected"
+                                    <?php  }
+                                    ?>
+
+                                value="<?php echo $result['catId'] ?>" > <?php echo $result['catName'] ?> </option>
                            
 
                             <?php } } ?>
@@ -71,7 +89,14 @@
                                     while($result = $getBrand->fetch_assoc()){
 
                             ?>
-                                <option value="<?php echo $result['brandId'] ?>" > <?php echo $result['brandName'] ?> </option>
+                                <option
+                                    <?php 
+                                        if ($value['brandId'] == $result['brandId']) { ?>
+                                            selected = "selected"
+                                    <?php  }
+                                    ?>
+
+                                 value="<?php echo $result['brandId'] ?>" > <?php echo $result['brandName'] ?> </option>
                            
 
                             <?php } } ?>
@@ -84,7 +109,9 @@
                         <label>Description</label>
                     </td>
                     <td>
-                        <textarea class="tinymce" name="body"></textarea>
+                        <textarea class="tinymce" name="body">
+                            <?php echo $value['body'] ?>
+                        </textarea>
                     </td>
                 </tr>
 				<tr>
@@ -92,7 +119,7 @@
                         <label>Price</label>
                     </td>
                     <td>
-                        <input type="text" name="price" placeholder="Enter Price..." class="medium" />
+                        <input type="text" name="price" value="<?php echo $value['price'] ?>" class="medium" />
                     </td>
                 </tr>
             
@@ -101,6 +128,8 @@
                         <label>Upload Image</label>
                     </td>
                     <td>
+                        <img src="<?php echo $value['image'] ?>" alt="" height="80px" width="200px">
+                        <br>
                         <input type="file" name="image" />
                     </td>
                 </tr>
@@ -112,8 +141,14 @@
                     <td>
                         <select id="select" name="type">
                             <option>Select Type</option>
-                            <option value="0">Featured</option>
-                            <option value="1">General</option>
+                            <?php if($value['type'] == 0) { ?>
+
+                                <option value="0" selected="selected">Featured</option>
+                                <option value="1">General</option>
+                            <?php }else{ ?>
+                                <option value="0">Featured</option>
+                                <option value="1" selected="selected">General</option>
+                            <?php } ?>
                         </select>
                     </td>
                 </tr>
@@ -121,11 +156,12 @@
 				<tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="submit" Value="Save" />
+                        <input type="submit" name="submit" Value="Update" />
                     </td>
                 </tr>
             </table>
             </form>
+        <?php }} ?>
         </div>
     </div>
 </div>
