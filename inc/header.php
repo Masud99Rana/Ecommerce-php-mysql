@@ -1,3 +1,27 @@
+<?php 
+	include 'lib/Session.php';
+	Session::init();
+	include 'lib/Database.php';
+	include 'helpers/Format.php';
+
+
+	spl_autoload_register(function($class){
+		include_once "classes/".$class.".php";
+	});
+
+	$db = new Database();
+	$fm = new Format();
+	$product = new Product();
+	$category = new Category();
+	$cart = new Cart();
+?>
+<?php
+  header("Cache-Control: no-cache, must-revalidate");
+  header("Pragma: no-cache"); 
+  header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
+  header("Cache-Control: max-age=2592000");
+?>
+
 <!DOCTYPE HTML>
 <head>
 <title>Store Website</title>
@@ -36,7 +60,18 @@
 					<div class="cart">
 						<a href="#" title="View my shopping cart" rel="nofollow">
 								<span class="cart_title">Cart</span>
-								<span class="no_product">(empty)</span>
+								<span class="no_product">
+									<?php
+										$getData = $cart->checkCartTable();
+										if ($getData) {
+											$sum = Session::get("sum");
+											$qty = Session::get("qty");
+											echo "$ ".$sum ." | qty: ".$qty;
+										}else{
+											echo "(empty)";
+										}
+									?>										
+								</span>
 							</a>
 						</div>
 			      </div>

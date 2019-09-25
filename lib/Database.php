@@ -1,4 +1,6 @@
-<?php include_once '../config/Config.php' ?>
+<?php 
+  $filepath = realpath(dirname(__FILE__));
+  include_once ($filepath.'/../config/Config.php') ?>
 <?php
   Class Database{
     public $host   = DB_HOST;

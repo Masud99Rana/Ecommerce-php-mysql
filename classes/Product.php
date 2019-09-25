@@ -1,6 +1,7 @@
 <?php
-	include_once '../lib/Database.php'; 
-	include_once '../helpers/Format.php'; 
+	$filepath = realpath(dirname(__FILE__));
+	include_once ($filepath.'/../lib/Database.php'); 
+	include_once ($filepath.'/../helpers/Format.php'); 
 ?>
 <?php
 class Product
@@ -205,6 +206,30 @@ class Product
 			return $msg;
 		}
 
+	}
+
+	public function getFeatureProduct(){
+
+		$query = "SELECT * FROM tbl_product WHERE type ='0' ORDER BY productId DESC LIMIT 4 ";
+		$result = $this->db->select($query);
+		return $result;
+	}
+
+	public function getNewProroduct(){
+
+		$query = "SELECT * FROM tbl_product ORDER BY productId DESC LIMIT 4 ";
+		$result = $this->db->select($query);
+		return $result;
+	}
+
+	public function getSingleProductById($id){
+		$query = "SELECT p.*, c.catName,b.brandName
+					FROM tbl_product as p, tbl_category as c, tbl_brand as b
+					WHERE p.catId = c.catId AND p.brandId = b.brandId AND p.productId ='$id' ";
+
+		$result = $this->db->select($query);
+
+		return $result;
 	}
 }
 
