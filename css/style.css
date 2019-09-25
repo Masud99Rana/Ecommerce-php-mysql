@@ -190,9 +190,9 @@ input[type="number"] {
   padding: 20px;
   width: 712px;
 }
-.register_account form input[type="text"],.register_account form select{
+.register_account form input[type="text"],.register_account form input[type="email"], .register_account form input[type="password"],.register_account form select{
 	font-size:12px;
-	color:#B3B1B1;
+	color:444;
 	padding:8px;
 	outline:none;
 	margin:5px 0;

@@ -14,6 +14,7 @@
 	$product = new Product();
 	$category = new Category();
 	$cart = new Cart();
+	$customer = new Customer();
 ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
@@ -75,7 +76,28 @@
 							</a>
 						</div>
 			      </div>
-		   <div class="login"><a href="login.php">Login</a></div>
+<?php 
+
+	if(isset($_GET['cid'])){
+		$delData = $cart->delCustomerCart();
+		Session::destroy();
+	}
+?>
+
+		   <div class="login">
+ <?php 
+ 	$login = Session::get('customerLogin');
+ 	if($login == false){ ?>
+		   	<a href="login.php">Login</a>
+<?php
+ 	}else{ ?>
+	<a href="?cid=<?php echo Session::get('customerId') ?>">Logout</a>
+ <?php
+ 	}
+ ?>
+		   </div>
+
+
 		 <div class="clear"></div>
 	 </div>
 	 <div class="clear"></div>
