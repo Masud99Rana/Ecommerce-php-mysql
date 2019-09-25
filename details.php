@@ -65,7 +65,7 @@
 							while ($value = $getCategory->fetch_assoc()) {
 						
 					?>
-				      <li><a href="productbycat.html"> <?php echo $value['catName'] ?> </a></li>
+				      <li><a href="productbycat.php?catId=<?php echo $value['catId'] ?>"> <?php echo $value['catName'] ?> </a></li>
 
 				  	<?php }} ?>
 				   
