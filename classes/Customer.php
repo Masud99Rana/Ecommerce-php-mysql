@@ -98,5 +98,52 @@ class Customer
 
 	}
 
+	public function getCustomerData($id){
+
+		$query = "SELECT * FROM tbl_customer WHERE id = '$id' ";
+		$result = $this->db->select($query);
+
+		return $result;
+	}
+	public function customerUpdate($data, $customerId){
+
+		$name = $this->fm->validation($data['name']);
+		$name = mysqli_real_escape_string($this->db->link, $name);
+
+		$city 		 	 = mysqli_real_escape_string($this->db->link, $data['city']);
+		$zip 	 		 = mysqli_real_escape_string($this->db->link, $data['zip']);
+		$address 		 = mysqli_real_escape_string($this->db->link, $data['address']);
+		$country 		 = mysqli_real_escape_string($this->db->link, $data['country']);
+		$phone 		 	 = mysqli_real_escape_string($this->db->link, $data['phone']);
+		
+		if (empty($name) || $city== "" || $zip== "" || $address== "" || $country== "" || $phone== "") {
+		    $msg = "<span class='error'>Field must not be empty.</span>";
+			return $msg;
+		}
+
+		$query = "INSERT INTO tbl_customer(name, city, zip, address, country, phone) 
+		VALUES('$name','$city','$zip', '$address','$country','$phone')";
+
+		$query = "UPDATE tbl_customer
+						SET
+						name ='$name',
+						city ='$city',
+						zip ='$zip',
+						address ='$address',
+						country ='$country',
+						phone ='$phone'
+					WHERE id = $customerId";
+
+		$inserted_row = $this->db->insert($query);
+		
+		if ($inserted_row) {
+		 	$msg =  "<span class='success'>Your details updated Successfully.
+		 </span>";
+		 	return $msg;
+		}else {
+		 	$msg =  "<span class='error'>Your details updated failed!</span>";
+		 	return $msg;
+		}			
+	}
 }
 ?>
