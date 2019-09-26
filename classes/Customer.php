@@ -88,7 +88,7 @@ class Customer
 				Session::set("customerId", $value['id']);
 				Session::set("customerName", $value['name']);
 
-				header("Location: order.php");
+				header("Location: profile.php");
 			
 			} else {
 				$loginmsg = "<span class='error'>Username or Password not match.</span>";

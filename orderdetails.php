@@ -4,7 +4,23 @@
  	$login = Session::get('customerLogin');
  	if($login != true){
  		header("Location: login.php");
- 	}	
+ 	}
+
+    if(isset($_GET['confirmid'])){
+      
+        $orderId = preg_replace('/[^-a-zA-Z0-9_]/','', $_GET['confirmid']);
+        $customerId = preg_replace('/[^-a-zA-Z0-9_]/','', $_GET['customerid']);
+
+        $confirmShift = $cart->productShiftConfirm($customerId,$orderId);
+    }
+
+    if(isset($_GET['removeid'])){
+      
+        $customerId = preg_replace('/[^-a-zA-Z0-9_]/','', $_GET['removeid']);
+        $orderid = preg_replace('/[^-a-zA-Z0-9_]/','', $_GET['orderid']);
+
+        $remove = $cart->productRemove($customerId,$orderid);
+    }
  ?>
 	<style type="text/css">
 		
@@ -17,6 +33,13 @@
     		<div class="section group">
     			<div class="order">
     				<h2>Your Ordered Details</h2>
+                    <?php if (isset($confirmShift)): ?>
+                        <?php echo $confirmShift ?>
+                    <?php endif ?>
+
+                    <?php if (isset($remove)): ?>
+                        <?php echo $remove ?>
+                    <?php endif ?>
 
     				<table class="tblone">
     					<tr>
@@ -46,7 +69,7 @@
     						<td><?php echo $result['productName'] ?></td>
     						<td><img src="admin/<?php echo $result['image'] ?>" alt=""/></td>
     						<td><?php echo $result['quantity'] ?></td>
-    						<td><?php
+    						<td>$<?php
     								echo $result['price'];
     							?>	
     						</td>
@@ -55,19 +78,26 @@
     							<?php
     								if ($result['status']==0) {
     									echo "Pending";
-    								}else{
-    									echo "Shifted";
-    								}
-    							?>
+    								}else if($result['status']==1){ 
+                                        echo "Shifted";
+                                    }else{
+                                        echo "OK";
+                                    }
+
+                                ?>
     						
     						</td>
-    					<?php if ($result['status']== 1) { ?>
     						<td>
-    							<a onclick="return confirm('Are you sure to delete?')" href="?delcart=<?php ?>">X</a>
-    						</td>
+    					<?php if ($result['status'] == 1) { ?>
+
+                            <a href="?confirmid=<?php echo $result['id'] ?>&price=<?php echo $result['price'] ?>&customerid=<?php echo $result['customerId'] ?>">Confirm</a>
+                        
+                        <?php }else if ($result['status']== 3) { ?>
+    						<a onclick="return confirm('Are you sure to remove?')" href="?removeid=<?php echo $result['customerId'] ?>&orderid=<?php echo $result['id'] ?>">Remove</a>
     					<?php } else{?>
-    							<td>N/A</td>
+    						N/A
     					<?php }?>
+                            </td>
     					</tr>
     				<?php }}?>
     				

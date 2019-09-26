@@ -140,7 +140,7 @@ class Cart
 
 	public function getOrderProduct($customerId){
 
-		$selectQuery = "SELECT * FROM tbl_order WHERE customerId = '$customerId' ORDER BY productId";
+		$selectQuery = "SELECT * FROM tbl_order WHERE customerId = '$customerId' ORDER BY date DESC";
 		$result = $this->db->select($selectQuery);
 		return $result; 
 
@@ -151,6 +151,67 @@ class Cart
 		$selectQuery = "SELECT * FROM tbl_order WHERE customerId = '$customerId'";
 		$result = $this->db->select($selectQuery);
 		return $result; 
+	}
+
+	public function getAllOrderProduct(){
+
+		$selectQuery = "SELECT * FROM tbl_order ORDER BY date DESC";
+		$result = $this->db->select($selectQuery);
+		return $result; 
+	}
+
+	public function productShift($customerId,$orderid,$price){
+
+		$customerId = $this->fm->validation($customerId);
+
+		$customerId = mysqli_real_escape_string($this->db->link, $customerId);
+		$orderid = mysqli_real_escape_string($this->db->link, $orderid);
+		$price = mysqli_real_escape_string($this->db->link, $price);
+
+		$query = "UPDATE tbl_order SET status= '1' WHERE customerId='$customerId' AND id='$orderid' AND price='$price' ";
+		$updated_row = $this->db->update($query);
+
+		if($updated_row){
+			return $msg = "<span class='success'>Product shifted successfully.</span>";
+		} else {
+			$msg = "<span class='error'>Product not shifted.</span>";
+			return $msg;
+		}
+	}
+	public function productShiftConfirm($customerId,$orderId){
+
+		$customerId = $this->fm->validation($customerId);
+
+		$customerId = mysqli_real_escape_string($this->db->link, $customerId);
+		$orderId = mysqli_real_escape_string($this->db->link, $orderId);
+
+		$query = "UPDATE tbl_order SET status= '3' WHERE customerId='$customerId' AND id='$orderId' ";
+		$updated_row = $this->db->update($query);
+
+		if($updated_row){
+			return $msg = "<span class='success'>Product shifted confirm.</span>";
+		} else {
+			$msg = "<span class='error'>Product shifted not confirm.</span>";
+			return $msg;
+		}
+	}
+
+	public function productRemove($customerId,$orderid){
+
+		$customerId = $this->fm->validation($customerId);
+
+		$customerId = mysqli_real_escape_string($this->db->link, $customerId);
+		$orderid = mysqli_real_escape_string($this->db->link, $orderid);
+
+		$query = "DELETE FROM tbl_order WHERE id='$orderid' AND customerId='$customerId' ";
+		$delData = $this->db->delete($query);
+
+		if($delData){
+			return $msg = "<span class='success'>Product removed success.</span>";
+		} else {
+			$msg = "<span class='error'>Product not removed.</span>";
+			return $msg;
+		}
 	}
 
 }

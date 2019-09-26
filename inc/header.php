@@ -105,7 +105,6 @@
 <div class="menu">
 	<ul id="dc_mega-menu-orange" class="dc_mm-orange">
 	  <li><a href="index.php">Home</a></li>
-	  <li><a href="products.php">Products</a> </li>
 	  <li><a href="topbrands.php">Top Brands</a></li>
 
 <?php $checkCart = $cart->checkCartTable(); 
@@ -126,6 +125,7 @@
    	if($login == true){ ?>
 	  <li><a href="profile.php">Profile</a> </li>
 	<?php } ?>
+	  <li><a href="compare.php">Compare</a> </li>
 	  <li><a href="contact.php">Contact</a> </li>
 	  <div class="clear"></div>
 	</ul>
