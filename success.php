@@ -44,7 +44,7 @@
 				?>
 
 				<p>Payment successful</p>
-				<p>Payment Payable Amount(Including Vat) : $
+				<p style="color:red">Payment Payable Amount(Including Vat) : $
 					<?php 
 						$vat = $sum * 0.1;
 						$sum += $vat;
@@ -53,7 +53,7 @@
 					?>	
 				</p>
 				<p>Thanks for purchase. Receive your order successfully. We will contact you ASAP with delivery details.
-					Here is your order details.. <a href="order.php">Visit Here..</a></p>
+					Here is your order details.. <a href="orderdetails.php">Visit Here..</a></p>
 				
 			</div>
 			

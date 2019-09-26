@@ -108,12 +108,19 @@
 	  <li><a href="products.php">Products</a> </li>
 	  <li><a href="topbrands.php">Top Brands</a></li>
 
-	<?php $checkCart = $cart->checkCartTable(); 
+<?php $checkCart = $cart->checkCartTable(); 
 		if($checkCart){
-	?>
+?>
 	  <li><a href="cart.php">Cart</a></li>
 	  <li><a href="payment.php">Payment</a></li>
-   	<?php } ?>
+<?php } ?>
+<?php
+   	$customerId = Session::get('customerId');
+	$checkOrder = $cart->checkOrderTable($customerId); 
+		if($checkOrder){
+?>
+	  <li><a href="orderdetails.php">Order Details</a></li>
+<?php } ?>
    <?php 
    	$login = Session::get('customerLogin');
    	if($login == true){ ?>

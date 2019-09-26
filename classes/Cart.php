@@ -137,5 +137,21 @@ class Cart
 		return $result;
 
 	}
+
+	public function getOrderProduct($customerId){
+
+		$selectQuery = "SELECT * FROM tbl_order WHERE customerId = '$customerId' ORDER BY productId";
+		$result = $this->db->select($selectQuery);
+		return $result; 
+
+	}
+
+	public function checkOrderTable($customerId){
+
+		$selectQuery = "SELECT * FROM tbl_order WHERE customerId = '$customerId'";
+		$result = $this->db->select($selectQuery);
+		return $result; 
+	}
+
 }
 ?>
