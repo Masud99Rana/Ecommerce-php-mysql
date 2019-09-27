@@ -1,4 +1,10 @@
 <?php include 'inc/header.php'; ?>
+<?php 
+	$login = Session::get('customerLogin');
+	if($login != true){
+		header("Location: login.php");
+	}	
+?>
 <style>
 	table.tblone img{
 		height: 90px;
