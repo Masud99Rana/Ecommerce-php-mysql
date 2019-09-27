@@ -135,6 +135,15 @@
 ?>
 	  <li><a href="compare.php">Compare</a> </li>
 <?php } ?>
+
+<?php  
+	$customerId =Session::get('customerId');
+	$getPro = $product->getWishListData($customerId);
+	if($getPro){
+?>
+	  <li><a href="wishlist.php">Wish List</a> </li>
+<?php } ?>
+	  <li><a href="compare.php">Compare</a> </li>
 	  <li><a href="contact.php">Contact</a> </li>
 	  <div class="clear"></div>
 	</ul>

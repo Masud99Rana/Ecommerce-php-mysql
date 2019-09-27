@@ -21,7 +21,21 @@
 
         $insertCompare = $product->insertCompareData($customerId,$productId);
     }
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['wishlist'])){
+    	$customerId =Session::get('customerId');
+
+        $productId = preg_replace('/[^-a-zA-Z0-9_]/','', $_POST['productid']);
+
+        $insertWishlist = $product->insertWishlistData($customerId,$productId);
+    }
  ?>
+<style>
+	.add-cart2 {
+	    display: inline-block;
+	    margin-top: 10px;
+	}
+</style>
 
  <div class="main">
     <div class="content">
@@ -54,14 +68,20 @@
 					$login = Session::get('customerLogin');
 					if($login == true){ ?>
 						
-					<div class="add-cart">
+					<div class="add-cart2">
 						<form action="" method="post">
 							<input type="hidden" class="buyfield" name="productid" value="<?php echo $result['productId'] ?>"/>
 							<input type="submit" class="buysubmit" name="compare" value="Add to compare"/>
 						</form>				
 					</div>
+					<div class="add-cart2">
+						<form action="" method="post">
+							<input type="hidden" class="buyfield" name="productid" value="<?php echo $result['productId'] ?>"/>
+							<input type="submit" class="buysubmit" name="wishlist" value="Add to Wish list"/>
+						</form>				
+					</div>
 				<?php } ?>
-
+						<br>
 					<span style="color: red; font-size: 18px">
 						<?php
 							if(isset($addCart)){
@@ -71,6 +91,9 @@
 
 						<?php if (isset($insertCompare)): ?>
 							<?php echo $insertCompare ?>
+						<?php endif ?>
+						<?php if (isset($insertWishlist)): ?>
+							<?php echo $insertWishlist ?>
 						<?php endif ?>
 					</span>
 				</div>
