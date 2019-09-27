@@ -80,6 +80,8 @@
 
 	if(isset($_GET['cid'])){
 		$delData = $cart->delCustomerCart();
+		$customerId =Session::get('customerId');
+		$delCompareData = $product->delCompareDataCart($customerId);
 		Session::destroy();
 	}
 ?>
@@ -125,7 +127,14 @@
    	if($login == true){ ?>
 	  <li><a href="profile.php">Profile</a> </li>
 	<?php } ?>
+<!-- // it shows when have data in compare table -->
+<?php  
+	$customerId =Session::get('customerId');
+	$getPro = $product->getCompareData($customerId);
+	if($getPro){
+?>
 	  <li><a href="compare.php">Compare</a> </li>
+<?php } ?>
 	  <li><a href="contact.php">Contact</a> </li>
 	  <div class="clear"></div>
 	</ul>

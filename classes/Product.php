@@ -266,6 +266,57 @@ class Product
 		return $result;
 	}
 
+	public function insertCompareData($customerId,$productId){
+
+
+		$customerId = $this->fm->validation($customerId);
+		$customerId = mysqli_real_escape_string($this->db->link, $customerId);
+		$productId = mysqli_real_escape_string($this->db->link, $productId);
+
+		$sId = session_id();
+
+		$selectQuery = "SELECT * FROM tbl_product WHERE productId = '$productId' ";
+		$result = $this->db->select($selectQuery)->fetch_assoc();
+
+		$productName = $result['productName'];
+		$price 		 = $result['price'];
+		$image 		 = $result['image'];
+
+
+		$checkQuery = "SELECT * FROM tbl_compare WHERE productId = '$productId' AND customerId ='$customerId' ";
+		$getPro = $this->db->select($checkQuery);
+
+		if($getPro){
+			$msg ="<span class='error'>Already added!</span>";
+			return $msg;
+		}
+
+		$query = "INSERT INTO tbl_compare(customerId,productId, productName, price,image) 
+		VALUES('$customerId','$productId','$productName','$price', '$image')";
+
+		$inserted_row = $this->db->insert($query);
+
+		if($inserted_row){
+			// header("Location: .php")
+			return $msg = "<span class='success'>Added to compare.</span>";
+		} else {
+			return $msg = "<span class='error'>Not added to compare.</span>";
+		}
+	}
+
+	public function getCompareData($customerId){
+
+		$query = "SELECT * FROM tbl_compare WHERE customerId='$customerId' ORDER BY id DESC";
+		$result = $this->db->select($query);
+		return $result;
+	}
+
+	public function delCompareDataCart($customerId){
+
+		$query = "DELETE FROM tbl_compare WHERE customerId ='$customerId' ";
+		$this->db->delete($query);
+	}
+
 }
 
 

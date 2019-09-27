@@ -6,13 +6,23 @@
         $id = preg_replace('/[^-a-zA-Z0-9_]/','', $_GET['proid']);     
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['buynow'])){
         $quantity= $_POST['quantity'];
 
         $addCart = $cart->addToCart($quantity, $id);
     }
-
 ?>
+
+<?php
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['compare'])){
+    	$customerId =Session::get('customerId');
+
+        $productId = preg_replace('/[^-a-zA-Z0-9_]/','', $_POST['productid']);
+
+        $insertCompare = $product->insertCompareData($customerId,$productId);
+    }
+ ?>
+
  <div class="main">
     <div class="content">
     	<div class="section group">
@@ -37,9 +47,20 @@
 					<div class="add-cart">
 						<form action="" method="post">
 							<input type="number" class="buyfield" name="quantity" value="1"/>
-							<input type="submit" class="buysubmit" name="submit" value="Buy Now"/>
+							<input type="submit" class="buysubmit" name="buynow" value="Buy Now"/>
 						</form>				
 					</div>
+				<?php 
+					$login = Session::get('customerLogin');
+					if($login == true){ ?>
+						
+					<div class="add-cart">
+						<form action="" method="post">
+							<input type="hidden" class="buyfield" name="productid" value="<?php echo $result['productId'] ?>"/>
+							<input type="submit" class="buysubmit" name="compare" value="Add to compare"/>
+						</form>				
+					</div>
+				<?php } ?>
 
 					<span style="color: red; font-size: 18px">
 						<?php
@@ -47,6 +68,10 @@
 								echo $addCart;
 							}
 						?>
+
+						<?php if (isset($insertCompare)): ?>
+							<?php echo $insertCompare ?>
+						<?php endif ?>
 					</span>
 				</div>
 				<div class="product-desc">
