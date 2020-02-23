@@ -62,7 +62,7 @@ Basic understanding of the technologies that i have mentioned in "[Built With](#
 
 1. Clone the repo
 ```sh
-https://github.com/Masud99Rana/Ecommerce-php_mysql.git
+git clone https://github.com/Masud99Rana/Ecommerce-php-mysql.git
 ```
 2. Config the database
 
